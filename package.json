@@ -1,0 +1,9 @@
+{
+  "name": "cards_against_humanity",
+  "version": "0.1.0",
+  "description": "Node multiplayer cards against humanity",
+  "main": "main.js",
+  "repository": "https://github.com/colonlc/cards_against_humanity",
+  "author": "Colonlc",
+  "license": "MIT"
+}
