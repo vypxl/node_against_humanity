@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cards against Humanity</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.js" charset="utf-8"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+    <link rel="stylesheet" href="/styles/game.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app" >
+      <div class="header">
+        <div class="header-name">Cards against Humanity</div>
+        <div class="header-state">{{ message() }}</div>
+        <div class="header-points">Points: {{ stuff.points }}</div>
+        <div class="header-button" v-on:click="submit"><span>{{ submitButtonCaption() }}</span></div>
+      </div>
+      <div class="wrap">
+        <div v-if="stuff.state == STATE_LOBBY && !doneAction">
+          <div v-for="p in stuff.players">{{ p.name }}</div>
+        </div>
+        <div v-if="stuff.state == STATE_CHOOSE_ANSWERS && !doneAction">
+          <h2 id="question">{{ stuff.question.text }}</h1>
+          <h4 class="question-pick">Pick {{ stuff.question.pick }} answer<span v-if="stuff.question.pick > 1">s</span>!</h3>
+          <div class="answers-container">
+            <div class="card" v-for="card, i in stuff.cards" v-on:contextmenu="cardDelete($event)" v-on:click="cardSelect($event)"><div class="card-index" style="display: none">{{ i }}</div><div class="card-text">{{ card.text }}</div></div>
+          </div>
+        </div>
+        <div v-if="stuff.state == STATE_END_ROUND && !doneAction">
+          <h1>Answers: </h1>
+          <div v-for="p in stuff.players" class="answers-container">
+            <div style="display: flex;">
+              <h3>{{ p.name }}: </h3>
+              <div class="card" v-on:click="selectWinner($event)">{{ p.choice }}
+                <div class="player-id" style="display:none;">{{ p.id }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="stuff.state == STATE_WINNER && !doneAction">
+          <h1>The winner is: {{ stuff.winner.name }}</h1>
+          <h2> - Yay..</h2>
+          <div class="card">
+            {{ stuff.winner.choice }}
+          </div>
+        </div>
+        <div v-if="stuff.state == STATE_END_GAME && !doneAction">
+          <h1>The overall Winner is: {{ stuff.winner }}!</h1>
+        </div>
+        <div v-if="doneAction">
+          <h1 v-html="standbyMessage()" id="psb" style="max-width: 90%; word-wrap: break-word;"></h1>
+          <script type="text/javascript">
+            setInterval(() => { $("#psb").append(String.fromCodePoint(0x1F601 + Math.floor(Math.random() * (0x1F6fF - 0x1F601)))); }, 250);
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <script src="/scripts/game.js" charset="utf-8"></script>
+  </body>
+</html>
