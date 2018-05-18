@@ -152,7 +152,7 @@ let app = new Vue({
           socket.emit("chosen", {
             choice: $("#question").html(),
             toDelete: app.toDelete.concat([app.chosen]),
-            wasJoker: app.jokersUsed // TODO: implement joker cards!
+            wasJoker: app.jokersUsed
           });
           for (c of app.chosen) {
             if(parseInt(c) >= app.stuff.cards.length) {
