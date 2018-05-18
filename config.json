@@ -1,5 +1,5 @@
 {
   "lang": "de",
   "pointsToWin": 5,
-  "idleTime": 5
+  "idleTime": 5000
 }
