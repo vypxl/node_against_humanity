@@ -26,6 +26,8 @@ let app = new Vue({
     toDelete: [],
     winnerChoice: undefined,
     doneAction: false,
+    jokersUsed: 0,
+    jokerCards: [],
 
     message: function() {
       switch (this.stuff.state) {
@@ -112,6 +114,13 @@ let app = new Vue({
       else this.toDelete.splice(this.toDelete.indexOf(el.find(".card-index").html()), 1)
       this.updateQuestion();
     },
+    joker: function() {
+      app.jokersUsed++;
+      app.jokerCards.push({
+        text: $('#joker').val()
+      });
+      $('#joker').val("");
+    },
     selectWinner: function(evt) {
       if(this.stuff.isKing) {
         el = $(evt.currentTarget);
@@ -125,7 +134,7 @@ let app = new Vue({
       for (var i = 0; i < this.stuff.question.pick; i++) {
         let replace = this.chosen[i];
         if(replace !== undefined) {
-          replace = this.stuff.cards[replace].text;
+          replace = this.stuff.cards.concat(this.jokerCards)[replace].text;
           strr = str.replace("_", replace);
           if(strr == str) str += (" - " + replace + ".")
           else str = strr
@@ -143,8 +152,14 @@ let app = new Vue({
           socket.emit("chosen", {
             choice: $("#question").html(),
             toDelete: app.toDelete.concat([app.chosen]),
-            wasJoker: false // TODO: implement joker cards!
+            wasJoker: app.jokersUsed // TODO: implement joker cards!
           });
+          for (c of app.chosen) {
+            if(parseInt(c) >= app.stuff.cards.length) {
+                app.jokerCards.splice(parseInt(c) - app.stuff.cards.length, 1);
+            }
+          }
+          app.jokersUsed = 0;
           app.toDelete = [];
           app.chosen = [];
           app.winnerChoice = undefined;

@@ -25,8 +25,13 @@
         <div v-if="stuff.state == STATE_CHOOSE_ANSWERS && !doneAction">
           <h2 id="question">{{ stuff.question.text }}</h1>
           <h4 class="question-pick">Pick {{ stuff.question.pick }} answer<span v-if="stuff.question.pick > 1">s</span>!</h3>
+          <div class="joker-container">
+            <h4>Make your own card ( {{ stuff.jokers - jokersUsed }} left): </h4>
+            <input id="joker" type="text">
+            <input type="button" value="Ok" v-on:click="joker">
+          </div>
           <div class="answers-container">
-            <div class="card" v-for="card, i in stuff.cards" v-on:contextmenu="cardDelete($event)" v-on:click="cardSelect($event)"><div class="card-index" style="display: none">{{ i }}</div><div class="card-text">{{ card.text }}</div></div>
+            <div class="card" v-for="card, i in stuff.cards.concat(jokerCards)" v-on:contextmenu="cardDelete($event)" v-on:click="cardSelect($event)"><div class="card-index" style="display: none">{{ i }}</div><div class="card-text">{{ card.text }}</div></div>
           </div>
         </div>
         <div v-if="stuff.state == STATE_END_ROUND && !doneAction">

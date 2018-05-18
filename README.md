@@ -11,7 +11,7 @@ The german card data is based upon [Prior99's repo](https://github.com/Prior99/c
 Just install [NodeJS](http://nodejs.org/) and (Git)[https://git-scm.com/].
 Then open a Console (Win+R) and type 'cmd' without quotes/a Terminal (On mac in your application drawer, on linux you know it :)),
 go into the directory you want to hav CaH in, and type `git clone https://github.com/colonlc/node_against_humanity.git` and Enter,
-then `cd node_against_humanity` Enter, then `npm start`. Now you have your server running!
+then `cd node_against_humanity` Enter, then `npm install -g yarn`, then `yarn install`, then `yarn start`. Now you have your server running!
 Others can now connect to your pc with their browser under http://[your ipv4 or ipv6 address]:8080/. You connect [here](http://localhost:8080).
 
 If you want the German cards, change 'en' to 'de' in config.json.

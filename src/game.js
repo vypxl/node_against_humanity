@@ -97,20 +97,18 @@ function update(io) {
   if (players.filter(p => !p.spectator).length != 0) {
     if (state == STATE_LOBBY && players.every(p => p.ready)) startGame();
     if (state == STATE_CHOOSE_ANSWERS && players.every(p => p.choice !== undefined || p.isKing || p.spectator)) state = STATE_END_ROUND;
-    if (state == STATE_CHOOSE_ANSWERS && players.some(p => p.points >= 1)) {
-      winner = players.find(p => p.points >= 1);
+    if (state == STATE_CHOOSE_ANSWERS && players.some(p => p.points >= config.pointsToWin)) {
+      winner = players.find(p => p.points >= config.pointsToWin);
       winner = winner.name;
       state = STATE_END_GAME;
       console.log("game over");
-      setTimeout(() => { state = STATE_LOBBY; update() }, 5000)
+      setTimeout(() => { state = STATE_LOBBY; update() }, config.idleTime)
     }
 
     let plI = (pls => pls.map(_p => ({ name: _p.name, points: _p.points, ready: _p.ready, choice: _p.choice, id: _p.id, isKing: _p.isKing })));
     let plInfo = plI(players);
-    if(state == STATE_END_ROUND) {
-      plInfo = plI(players.filter(p => !p.isKing && !p.spectator));
-      for (p of players) { p.spectator = false; }
-    }
+    if(state == STATE_END_ROUND) plInfo = plI(players.filter(p => !p.isKing && !p.spectator));
+    if(state == STATE_WINNER) for (p of players) { p.spectator = false; }
 
     for(p of players) {
       p.socket.emit("update", {
@@ -170,7 +168,7 @@ module.exports = function(io) {
         winner.name = w.name;
         state = STATE_WINNER;
         update();
-        setTimeout(round, 5000)
+        setTimeout(round, config.idleTime)
       }
     });
 
