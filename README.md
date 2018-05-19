@@ -17,3 +17,10 @@ Others can now connect to your pc with their browser under http://[your ipv4 or 
 If you want the German cards, change 'en' to 'de' in config.json.
 
 You can also deploy this to a [Heroku](https://www.heroku.com/pricing) free Dyno if you want.
+
+# Config
+
+You can edit the config file to change
+- card language "lang": values: "de", "en"
+- points required to win a game: "pointsToWin": values: <Number bigger than 0>
+- Idle Time in milliseconds after round "idleTime": values: <Number bigger than 0>

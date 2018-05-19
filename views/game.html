@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>Cards against Humanity</title>
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js" charset="utf-8"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.js" charset="utf-8"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <link rel="stylesheet" href="/styles/game.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   </head>
@@ -31,25 +31,20 @@
             <input type="button" value="Ok" v-on:click="joker">
           </div>
           <div class="answers-container">
-            <div class="card" v-for="card, i in stuff.cards.concat(jokerCards)" v-on:contextmenu="cardDelete($event)" v-on:click="cardSelect($event)"><div class="card-index" style="display: none">{{ i }}</div><div class="card-text">{{ card.text }}</div></div>
-          </div>
-        </div>
-        <div v-if="stuff.state == STATE_END_ROUND && !doneAction">
-          <h1>Answers: </h1>
-          <div v-for="p in stuff.players" class="answers-container">
-            <div style="display: flex;">
-              <h3>{{ p.name }}: </h3>
-              <div class="card" v-on:click="selectWinner($event)">{{ p.choice }}
-                <div class="player-id" style="display:none;">{{ p.id }}</div>
-              </div>
+            <div class="card" v-for="card, i in stuff.cards.concat(jokerCards)" v-on:contextmenu="cardDelete($event)" v-on:click="cardSelect($event)">
+              <div class="card-index" style="display: none">{{ i }}</div>
+              <div class="card-text">{{ card.text }}</div>
             </div>
           </div>
         </div>
-        <div v-if="stuff.state == STATE_WINNER && !doneAction">
-          <h1>The winner is: {{ stuff.winner.name }}</h1>
-          <h2> - Yay..</h2>
-          <div class="card">
-            {{ stuff.winner.choice }}
+        <div v-if="(stuff.state == STATE_END_ROUND || stuff.state == STATE_WINNER) && !doneAction">
+          <h1>Answers: </h1>
+          <div class="answers-container">
+            <div class="card" v-for="p in stuff.players" v-bind:class="{ warn: p.id == stuff.winner.id }" v-on:click="selectWinner($event)">
+              <div class="player-id" style="display:none;">{{ p.id }}</div>
+              <h4 v-if="stuff.state == STATE_WINNER"> {{ p.name }}</h4>
+              <div class="card-text">{{ p.choice }}</div>
+            </div>
           </div>
         </div>
         <div v-if="stuff.state == STATE_END_GAME && !doneAction">
