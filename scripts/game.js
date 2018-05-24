@@ -75,7 +75,7 @@ let app = new Vue({
     standbyMessage: function() {
       ret = ""
       if(this.stuff.state == this.STATE_CHOOSE_ANSWERS && this.stuff.isKing)
-        ret += "<span style=\"text-align: center; display: block;\">You are the Czar!</span><br>";
+        ret += "<span style=\"text-align: center; display: block;\">You are the Czar!<br>" + this.stuff.question.text + "</span><br>";
       ret += "Please stand by..<br>";
       return ret;
     },
