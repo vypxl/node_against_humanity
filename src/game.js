@@ -89,6 +89,7 @@ function round() {
   let newKing = players.find(p => !p.wasKing);
   newKing.wasKing = true;
   newKing.isKing = true;
+  winner = undefined;
   update();
 }
 
