@@ -1,5 +1,4 @@
-# Node against humanity. [WIP]
-
+# Node against humanity
 You can use a nodejs server to play Cards against humanity online! (self-hosted!)
 
 ## Disclaimer
@@ -15,8 +14,6 @@ then `cd node_against_humanity` Enter, then `npm install -g yarn`, then `yarn in
 Others can now connect to your pc with their browser under http://[your ipv4 or ipv6 address]:8080/. You connect [here](http://localhost:8080).
 
 If you want the German cards, change 'en' to 'de' in config.json.
-
-You can also deploy this to a [Heroku](https://www.heroku.com/pricing) free Dyno if you want.
 
 # Config
 
