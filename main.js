@@ -1,5 +1,4 @@
 const express = require('express');
-const reload = require('easy-livereload');
 const sio = require('socket.io');
 const path = require('path');
 
